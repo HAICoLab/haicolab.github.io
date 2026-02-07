@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAICoLab - Style C (Futuristic/Tech)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/custom.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Style C: Futuristic/Tech */
+    .hero-banner {
+      position: relative;
+      min-height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0e1a;
+      overflow: hidden;
+    }
+
+    /* Animated grid background */
+    .tech-grid {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(59, 130, 246, 0.1) 2px, transparent 2px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 2px, transparent 2px);
+      background-size: 50px 50px;
+      animation: grid-move 20s linear infinite;
+      transform: perspective(500px) rotateX(60deg);
+      transform-origin: center bottom;
+    }
+
+    @keyframes grid-move {
+      0% { background-position: 0 0; }
+      100% { background-position: 50px 50px; }
+    }
+
+    /* Neon glow effects */
+    .neon-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid;
+      animation: neon-pulse 3s ease-in-out infinite;
+    }
+
+    .circle1 {
+      width: 300px;
+      height: 300px;
+      border-color: #3b82f6;
+      top: 20%;
+      left: 10%;
+      box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
+      animation-delay: 0s;
+    }
+
+    .circle2 {
+      width: 200px;
+      height: 200px;
+      border-color: #7c3aed;
+      bottom: 30%;
+      right: 15%;
+      box-shadow: 0 0 50px rgba(124, 58, 237, 0.5);
+      animation-delay: 1s;
+    }
+
+    .circle3 {
+      width: 150px;
+      height: 150px;
+      border-color: #06b6d4;
+      top: 50%;
+      right: 30%;
+      box-shadow: 0 0 50px rgba(6, 182, 212, 0.5);
+      animation-delay: 2s;
+    }
+
+    @keyframes neon-pulse {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+      }
+    }
+
+    /* Holographic effect */
+    .hologram-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(59, 130, 246, 0.03) 0px,
+        rgba(59, 130, 246, 0.03) 1px,
+        transparent 1px,
+        transparent 2px
+      );
+      animation: scan 3s linear infinite;
+    }
+
+    @keyframes scan {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(20px); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      color: white;
+      padding: 4rem 1rem;
+    }
+
+    .hero-title {
+      font-size: 4.5rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #06b6d4 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
+      animation: glow-text 2s ease-in-out infinite;
+    }
+
+    @keyframes glow-text {
+      0%, 100% { filter: brightness(100%); }
+      50% { filter: brightness(130%); }
+    }
+
+    .hero-subtitle {
+      font-size: 1.6rem;
+      font-weight: 300;
+      margin-bottom: 3rem;
+      color: #94a3b8;
+      text-shadow: 0 0 10px rgba(148, 163, 184, 0.5);
+    }
+
+    /* Neural network visualization */
+    .neural-network {
+      position: relative;
+      width: 400px;
+      height: 250px;
+      margin: 3rem auto;
+    }
+
+    .node {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      background: #3b82f6;
+      border-radius: 50%;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+      animation: node-pulse 2s ease-in-out infinite;
+    }
+
+    .node:nth-child(odd) { animation-delay: 0.5s; }
+
+    @keyframes node-pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+      }
+      50% {
+        transform: scale(1.3);
+        box-shadow: 0 0 25px rgba(59, 130, 246, 1);
+      }
+    }
+
+    .connection {
+      position: absolute;
+      height: 2px;
+      background: linear-gradient(90deg,
+        rgba(59, 130, 246, 0.2),
+        rgba(59, 130, 246, 0.6),
+        rgba(59, 130, 246, 0.2)
+      );
+      transform-origin: left center;
+      animation: flow-data 2s ease-in-out infinite;
+    }
+
+    @keyframes flow-data {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2.8rem; }
+      .neural-network { width: 300px; height: 200px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top" style="background: #0a0e1a; border-bottom: 1px solid rgba(59, 130, 246, 0.3);">
+    <div class="container">
+      <a class="navbar-brand" href="index.html" style="color: #3b82f6;">HAICoLab - Style C</a>
+      <div class="ms-auto">
+        <a href="index-style-a.html" class="btn btn-sm btn-outline-primary me-2">A</a>
+        <a href="index-style-b.html" class="btn btn-sm btn-outline-primary me-2">B</a>
+        <a href="index-style-c.html" class="btn btn-sm btn-primary">C</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="hero-banner">
+    <div class="tech-grid"></div>
+    <div class="hologram-lines"></div>
+    <div class="neon-circle circle1"></div>
+    <div class="neon-circle circle2"></div>
+    <div class="neon-circle circle3"></div>
+
+    <div class="hero-content">
+      <h1 class="hero-title">HAICoLab</h1>
+      <p class="hero-subtitle">Human-AI Collaboration Lab for Data-Centric Research</p>
+
+      <!-- Simplified Neural Network Visual -->
+      <div class="neural-network">
+        <!-- Left nodes (Human) -->
+        <div class="node" style="left: 0; top: 50px;"></div>
+        <div class="node" style="left: 0; top: 100px;"></div>
+        <div class="node" style="left: 0; top: 150px;"></div>
+
+        <!-- Middle nodes (Collaboration) -->
+        <div class="node" style="left: 180px; top: 30px;"></div>
+        <div class="node" style="left: 180px; top: 100px;"></div>
+        <div class="node" style="left: 180px; top: 170px;"></div>
+
+        <!-- Right nodes (AI) -->
+        <div class="node" style="right: 0; top: 50px;"></div>
+        <div class="node" style="right: 0; top: 100px;"></div>
+        <div class="node" style="right: 0; top: 150px;"></div>
+
+        <!-- Connections -->
+        <div class="connection" style="left: 12px; top: 51px; width: 168px; transform: rotate(-10deg);"></div>
+        <div class="connection" style="left: 12px; top: 101px; width: 168px;"></div>
+        <div class="connection" style="left: 12px; top: 151px; width: 168px; transform: rotate(10deg);"></div>
+        <div class="connection" style="left: 192px; top: 51px; width: 192px; transform: rotate(10deg);"></div>
+        <div class="connection" style="left: 192px; top: 101px; width: 192px;"></div>
+        <div class="connection" style="left: 192px; top: 171px; width: 192px; transform: rotate(-10deg);"></div>
+      </div>
+
+      <p style="font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 2rem auto;">
+        Next-generation research through intelligent human-machine synergy
+      </p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container text-center">
+      <h3>Style C: Futuristic / Tech</h3>
+      <p>미래적인 네온 효과, 뉴럴 네트워크 시각화, 사이버 스타일</p>
+      <a href="index-style-b.html" class="btn btn-outline-primary">← Style B</a>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
