@@ -4,11 +4,12 @@
    alternating bands, stat tiles, venue badges.
    ========================================================== */
 :root{
-  --fg:#0b0d17; --fg2:#343a52; --fg3:#5a63a3; --fg4:#8a93c8;
-  --line:#dde1f3; --bg:#ffffff; --bg2:#f4f5fd; --bg3:#e7eafb;
-  --accent:#5b6ee1; --accent2:#3d4fc9; --accent-soft:#e9ecff;
-  --gold:#c88a1a; --gold-soft:#fff4dc;
-  --radius:14px; --shadow:0 6px 24px rgba(30,40,120,.08);
+  --fg:#1e1e1e; --fg2:#454545; --fg3:#7a6f70; --fg4:#a89c9d;
+  --line:#e8dedd; --bg:#ffffff; --bg2:#faf6f5; --bg3:#f3e9e8;
+  --accent:#AF272F; --accent2:#9E2A2B; --accent-soft:#f7e6e6;
+  --blue:#00558C; --purple:#642F6C;
+  --gold:#b8791a; --gold-soft:#fbf1dc;
+  --radius:14px; --shadow:0 6px 24px rgba(120,40,40,.08);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{font-size:16px;scroll-behavior:smooth;scroll-padding-top:72px}
@@ -108,7 +109,7 @@ main{padding-top:60px}
 .pub{display:grid;grid-template-columns:1fr auto;gap:14px;padding:18px 0;border-bottom:1px solid var(--line);align-items:start}
 .pub .venue{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--accent2);background:var(--accent-soft);border-radius:6px;padding:3px 8px;margin-bottom:8px}
 .pub .venue.award{color:var(--gold);background:var(--gold-soft)}
-.pub .venue.domestic{color:var(--fg3);background:var(--bg2)}
+.pub .venue.domestic{color:var(--blue);background:#e6eef5}
 .pub .venue.preprint{color:#6b7280;background:#f1f2f4}
 .pub h4{font-size:16.5px;font-weight:700;letter-spacing:-.01em;line-height:1.35}
 .pub h4 a:hover{color:var(--accent)}
@@ -144,7 +145,7 @@ main{padding-top:60px}
 .project .period{font-size:13px;font-weight:700;color:var(--fg3)}
 .project h3{font-size:19px;font-weight:800;letter-spacing:-.02em;margin-top:6px;line-height:1.35}
 .project .funder{font-size:14px;color:var(--fg2);margin-top:6px}
-.project .status{align-self:start;font-size:12px;font-weight:800;color:#0f7a4a;background:#e3f6ec;border-radius:999px;padding:5px 11px;white-space:nowrap}
+.project .status{align-self:start;font-size:12px;font-weight:800;color:var(--blue);background:#e6eef5;border-radius:999px;padding:5px 11px;white-space:nowrap}
 .project .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
 @media(max-width:600px){.project{grid-template-columns:1fr}}
 
@@ -181,8 +182,8 @@ footer a:hover{color:var(--fg)}
 @media(max-width:700px){.prof{grid-template-columns:1fr}.prof img{width:100%;height:auto;aspect-ratio:1/1.1}}
 .member{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;gap:8px;transition:transform .2s,box-shadow .2s}
 .member:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
-.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;background:linear-gradient(135deg,var(--accent),#9aa7f2);margin-bottom:4px;letter-spacing:-.02em}
-.avatar.alt{background:linear-gradient(135deg,#3d4fc9,#6b80e5)}
+.avatar{width:64px;height:64px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;background:linear-gradient(135deg,var(--accent),var(--purple));margin-bottom:4px;letter-spacing:-.02em}
+.avatar.alt{background:linear-gradient(135deg,var(--blue),var(--purple))}
 .avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
 .member h3{font-size:17px;font-weight:800;letter-spacing:-.02em;line-height:1.3}
 .member h3 small{display:block;font-weight:500;color:var(--fg3);font-size:13px;margin-top:2px}
@@ -190,7 +191,7 @@ footer a:hover{color:var(--fg)}
 .member .prog{font-size:13.5px;color:var(--fg2)}
 .member .topic{font-size:12px;font-weight:700;color:var(--fg3);margin-top:6px}
 .member .tags{display:flex;flex-wrap:wrap;gap:6px}
-.join{background:linear-gradient(135deg,var(--accent2),var(--accent));color:#fff;border-radius:var(--radius);padding:36px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.join{background:linear-gradient(120deg,var(--accent2),var(--purple) 70%,var(--blue));color:#fff;border-radius:var(--radius);padding:36px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 .join h2{font-size:26px;font-weight:800;letter-spacing:-.03em}
 .join p{opacity:.9;margin-top:6px;max-width:560px}
 .join .btn{background:#fff;color:var(--accent2);border-color:#fff}
