@@ -1,517 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HAICoLab - Human-AI Collaboration Lab</title>
-
-  <!-- Bootstrap 5 CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom CSS -->
-  <link href="css/custom.css" rel="stylesheet">
-
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    /* Style C: Futuristic/Tech Hero Section */
-    .hero-banner {
-      position: relative;
-      min-height: 650px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #0a0e1a;
-      overflow: hidden;
-    }
-
-    /* Animated grid background */
-    .tech-grid {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-image:
-        linear-gradient(rgba(59, 130, 246, 0.1) 2px, transparent 2px),
-        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 2px, transparent 2px);
-      background-size: 50px 50px;
-      animation: grid-move 20s linear infinite;
-      transform: perspective(500px) rotateX(60deg);
-      transform-origin: center bottom;
-    }
-
-    @keyframes grid-move {
-      0% { background-position: 0 0; }
-      100% { background-position: 50px 50px; }
-    }
-
-    /* Neon glow effects */
-    .neon-circle {
-      position: absolute;
-      border-radius: 50%;
-      border: 2px solid;
-      animation: neon-pulse 3s ease-in-out infinite;
-    }
-
-    .circle1 {
-      width: 300px;
-      height: 300px;
-      border-color: #3b82f6;
-      top: 20%;
-      left: 10%;
-      box-shadow: 0 0 50px rgba(59, 130, 246, 0.5);
-      animation-delay: 0s;
-    }
-
-    .circle2 {
-      width: 200px;
-      height: 200px;
-      border-color: #7c3aed;
-      bottom: 30%;
-      right: 15%;
-      box-shadow: 0 0 50px rgba(124, 58, 237, 0.5);
-      animation-delay: 1s;
-    }
-
-    .circle3 {
-      width: 150px;
-      height: 150px;
-      border-color: #06b6d4;
-      top: 50%;
-      right: 30%;
-      box-shadow: 0 0 50px rgba(6, 182, 212, 0.5);
-      animation-delay: 2s;
-    }
-
-    @keyframes neon-pulse {
-      0%, 100% {
-        opacity: 0.3;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.6;
-        transform: scale(1.05);
-      }
-    }
-
-    /* Holographic effect */
-    .hologram-lines {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: repeating-linear-gradient(
-        0deg,
-        rgba(59, 130, 246, 0.03) 0px,
-        rgba(59, 130, 246, 0.03) 1px,
-        transparent 1px,
-        transparent 2px
-      );
-      animation: scan 3s linear infinite;
-    }
-
-    @keyframes scan {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(20px); }
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 10;
-      text-align: center;
-      color: white;
-      padding: 4rem 1rem;
-    }
-
-    .hero-title {
-      font-size: 4.5rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 50%, #06b6d4 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6));
-      animation: glow-text 2s ease-in-out infinite;
-    }
-
-    @keyframes glow-text {
-      0%, 100% { filter: drop-shadow(0 0 30px rgba(59, 130, 246, 0.6)); }
-      50% { filter: drop-shadow(0 0 50px rgba(59, 130, 246, 0.9)); }
-    }
-
-    .hero-subtitle {
-      font-size: 1.6rem;
-      font-weight: 300;
-      margin-bottom: 2rem;
-      color: #94a3b8;
-      text-shadow: 0 0 10px rgba(148, 163, 184, 0.5);
-    }
-
-    .hero-description {
-      font-size: 1.15rem;
-      max-width: 700px;
-      margin: 0 auto 3rem;
-      color: #cbd5e1;
-      line-height: 1.8;
-    }
-
-    /* Human-AI Collaboration Visualization */
-    .collaboration-container {
-      position: relative;
-      width: 700px;
-      max-width: 90%;
-      margin: 3rem auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .entity-box {
-      text-align: center;
-      position: relative;
-      z-index: 5;
-    }
-
-    .entity-icon-wrapper {
-      width: 120px;
-      height: 120px;
-      margin: 0 auto 1rem;
-      background: rgba(59, 130, 246, 0.1);
-      border: 2px solid rgba(59, 130, 246, 0.5);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-      animation: icon-glow 3s ease-in-out infinite;
-    }
-
-    .entity-box:nth-child(1) .entity-icon-wrapper {
-      border-color: rgba(59, 130, 246, 0.6);
-      box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
-      animation-delay: 0s;
-    }
-
-    .entity-box:nth-child(2) .entity-icon-wrapper {
-      border-color: rgba(124, 58, 237, 0.6);
-      box-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
-      animation-delay: 1s;
-    }
-
-    .entity-box:nth-child(3) .entity-icon-wrapper {
-      border-color: rgba(6, 182, 212, 0.6);
-      box-shadow: 0 0 30px rgba(6, 182, 212, 0.3);
-      animation-delay: 2s;
-    }
-
-    @keyframes icon-glow {
-      0%, 100% {
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        transform: scale(1);
-      }
-      50% {
-        box-shadow: 0 0 40px rgba(59, 130, 246, 0.6);
-        transform: scale(1.05);
-      }
-    }
-
-    .entity-icon {
-      font-size: 4rem;
-      background: linear-gradient(135deg, #3b82f6, #7c3aed, #06b6d4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
-    }
-
-    .entity-label {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #3b82f6;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 0.5rem;
-    }
-
-    .entity-description {
-      font-size: 0.9rem;
-      color: #94a3b8;
-    }
-
-    /* Connection arrows */
-    .connection-arrow {
-      position: absolute;
-      top: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1;
-    }
-
-    .arrow-line {
-      height: 3px;
-      width: 100px;
-      background: linear-gradient(90deg,
-        rgba(59, 130, 246, 0.3),
-        rgba(124, 58, 237, 0.6),
-        rgba(59, 130, 246, 0.3)
-      );
-      position: relative;
-      animation: flow-pulse 2s ease-in-out infinite;
-    }
-
-    .arrow-line::after {
-      content: '';
-      position: absolute;
-      right: -10px;
-      top: -5px;
-      width: 0;
-      height: 0;
-      border-left: 12px solid rgba(124, 58, 237, 0.6);
-      border-top: 6px solid transparent;
-      border-bottom: 6px solid transparent;
-      animation: arrow-pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes flow-pulse {
-      0%, 100% {
-        opacity: 0.5;
-        box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
-      }
-      50% {
-        opacity: 1;
-        box-shadow: 0 0 15px rgba(124, 58, 237, 0.6);
-      }
-    }
-
-    @keyframes arrow-pulse {
-      0%, 100% {
-        opacity: 0.5;
-        transform: translateX(0);
-      }
-      50% {
-        opacity: 1;
-        transform: translateX(5px);
-      }
-    }
-
-    /* Data flow particles */
-    .data-particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #3b82f6;
-      border-radius: 50%;
-      box-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
-      animation: particle-flow 3s linear infinite;
-    }
-
-    @keyframes particle-flow {
-      0% {
-        left: 140px;
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        left: calc(100% - 140px);
-        opacity: 0;
-      }
-    }
-
-    .data-particle:nth-child(1) { top: 48%; animation-delay: 0s; }
-    .data-particle:nth-child(2) { top: 50%; animation-delay: 1s; }
-    .data-particle:nth-child(3) { top: 52%; animation-delay: 2s; }
-
-    @media (max-width: 768px) {
-      .hero-title { font-size: 2.8rem; }
-      .hero-subtitle { font-size: 1.3rem; }
-      .collaboration-container {
-        flex-direction: column;
-        gap: 3rem;
-      }
-      .entity-icon-wrapper {
-        width: 100px;
-        height: 100px;
-      }
-      .entity-icon {
-        font-size: 3rem;
-      }
-      .connection-arrow {
-        display: none;
-      }
-    }
-  </style>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2224%22 fill=%22%235b6ee1%22/><text x=%2250%22 y=%2266%22 font-size=%2248%22 font-family=%22sans-serif%22 font-weight=%22800%22 fill=%22white%22 text-anchor=%22middle%22>YH</text></svg>">
+<title>HAICoLab — Yoonseok Heo · Human-AI Collaboration Lab, Sogang University</title>
+<meta name="description" content="Yoonseok Heo (허윤석), Division of English, Sogang University. Research on Human-AI Collaboration, AI Literacy, Human-centered AI, and NLP.">
 </head>
 <body>
-  <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg navbar-light sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="index.html">HAICoLab</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="members.html">Members</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="research.html">Research</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="publications.html">Publications</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="teaching.html">Teaching</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
-          </li>
-        </ul>
+<nav class="top"><div class="inner">
+  <a class="logo" href="index.html"><span class="mark">HA</span>HAICoLab<small>· Human-AI Collaboration Lab, Sogang</small></a>
+  <button class="burger" aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+  <div class="links">
+    <a href="index.html#about">About</a>
+    <a href="members.html">Members</a>
+    <a href="index.html#research">Research</a>
+    <a href="publications.html">Publications</a>
+    <a href="teaching.html">Teaching</a>
+    <a href="projects.html">Projects</a>
+    <a href="index.html#contact">Contact</a>
+  </div>
+</div></nav>
+<main>
+
+<section class="hero" id="top"><div class="inner">
+  <div class="grid">
+    <div>
+      <span class="eyebrow">Assistant Professor · Division of English, Sogang University</span>
+      <h1>Language, people,<br>and the AI that <em>works with</em> them.</h1>
+      <div class="name">Yoonseok Heo <span>허윤석</span></div>
+      <p class="lead">I study how humans and AI collaborate: building language technology grounded in linguistic and humanistic insight, and helping students in the humanities become confident, critical users and builders of AI.</p>
+      <div class="cta">
+        <a class="btn primary" href="publications.html">Publications</a>
+        <a class="btn" href="teaching.html">Courses</a>
+        <a class="btn" href="https://scholar.google.com/citations?user=rGa25MMAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
       </div>
     </div>
-  </nav>
-
-  <!-- Hero Section: Futuristic Tech Style -->
-  <div class="hero-banner">
-    <div class="tech-grid"></div>
-    <div class="hologram-lines"></div>
-    <div class="neon-circle circle1"></div>
-    <div class="neon-circle circle2"></div>
-    <div class="neon-circle circle3"></div>
-
-    <div class="hero-content">
-      <h1 class="hero-title">HAICoLab</h1>
-      <p class="hero-subtitle">Human-AI Collaboration Lab for Data-Centric Research</p>
-      <p class="hero-description">
-        Exploring the synergy between human intelligence and artificial intelligence
-        to create meaningful value through data-centric approaches and collaborative innovation
-      </p>
-
-      <!-- Human-AI Collaboration Visualization -->
-      <div class="collaboration-container">
-        <!-- Human -->
-        <div class="entity-box">
-          <div class="entity-icon-wrapper">
-            <i class="fas fa-user-graduate entity-icon"></i>
-          </div>
-          <div class="entity-label">Human</div>
-          <div class="entity-description">Expertise & Creativity</div>
-        </div>
-
-        <!-- Connection Arrow 1 -->
-        <div class="connection-arrow" style="left: 140px;">
-          <div class="arrow-line"></div>
-        </div>
-
-        <!-- Data (Center) -->
-        <div class="entity-box">
-          <div class="entity-icon-wrapper">
-            <i class="fas fa-database entity-icon"></i>
-          </div>
-          <div class="entity-label">Data</div>
-          <div class="entity-description">Curation & Quality</div>
-        </div>
-
-        <!-- Connection Arrow 2 -->
-        <div class="connection-arrow" style="right: 140px;">
-          <div class="arrow-line"></div>
-        </div>
-
-        <!-- AI -->
-        <div class="entity-box">
-          <div class="entity-icon-wrapper">
-            <i class="fas fa-robot entity-icon"></i>
-          </div>
-          <div class="entity-label">AI</div>
-          <div class="entity-description">Processing & Analysis</div>
-        </div>
-
-        <!-- Flowing data particles -->
-        <div class="data-particle"></div>
-        <div class="data-particle"></div>
-        <div class="data-particle"></div>
-      </div>
+    <div class="portrait">
+      <img src="assets/img/profile.jpg" alt="Yoonseok Heo">
+      <div class="tag">HAICoLab · J825</div>
     </div>
   </div>
+  <div class="stats">
+    <a class="stat" href="publications.html"><b id="stat-journal">–</b><span>Int'l Journal<br>Papers</span></a>
+    <a class="stat" href="publications.html"><b id="stat-conf">–</b><span>Int'l Conference<br>Papers</span></a>
+    <a class="stat" href="publications.html"><b id="stat-total">–</b><span>Total<br>Publications</span></a>
+    <a class="stat" href="teaching.html"><b>5</b><span>Courses<br>in 2026</span></a>
+    <a class="stat" href="projects.html"><b>1</b><span>Funded Project<br>(2026)</span></a>
+  </div>
+</div></section>
 
-  <!-- About Section -->
-  <div class="section bg-light-gray">
-    <div class="container">
-      <h2 class="section-title">About</h2>
+<section class="band band-off" id="news"><div class="inner">
+  <div class="sec-head"><h2>News</h2></div>
+  <ul class="news">
+    <li><span class="date">2026.09.07</span><span class="kind">Project</span><span class="txt">ETRI 용역과제 <em>「웹 공개정보 기반 방송·미디어 콘텐츠 메타데이터 구축 자동화 및 지식자원 구조화를 위한 통합 프레임워크 개발」</em> 착수 (2026.09 – 2026.11)</span></li>
+    <li><span class="date">2026.09.01</span><span class="kind">Teaching</span><span class="txt">2026학년도 2학기 개강 — <a href="teaching.html">AI와 언어학, 인공지능을 위한 데이터분석, 생성형 AI의 이해와 활용</a> 강의 시작</span></li>
+    <li><span class="date">2026</span><span class="kind">Paper</span><span class="txt">[Paper Accepted] <b>CulturePRM</b>: A Process Reward Model for Mitigating Cultural Overriding in Cultural Reasoning — accepted to <b>EMNLP 2026 (Main)</b></span></li>
+    <li><span class="date">2026</span><span class="kind award">Award</span><span class="txt">[Award] 학부생 이서우·남고은 학생, <b>KCC 2026 학부 우수논문상 (장려)</b> 수상 — 헤밍웨이 단편 소설에 대한 LLM 기반 서사 기능 전이 패턴 분석</span></li>
+    <li><span class="date">2026.03</span><span class="kind">Teaching</span><span class="txt">2026학년도 1학기 신규 강의 <a href="teaching.html">「언어기술을 위한 데이터 중심 AI 개론」</a> (학부/대학원) 개설</span></li>
+    <li><span class="date">2025.09</span><span class="kind">Lab</span><span class="txt">HAICoLab (Human-AI Collaboration Lab for Data-Centric Research) officially launched at Sogang University</span></li>
+  </ul>
+</div></section>
 
-      <div class="row">
-        <div class="col-lg-8">
-          <p class="lead">
-            Welcome to the Human-AI Collaboration Lab for Data-Centric Research (HAICoLab) at Sogang University.
-            Our research focuses on advancing the synergy between humans and artificial intelligence through
-            data-centric approaches.
-          </p>
-
-          <p>
-            We investigate how to build, evaluate, and improve AI systems that effectively collaborate with humans,
-            with particular emphasis on natural language processing and large language models. Our work spans
-            fundamental research in data-centric AI methodologies to practical applications in real-world scenarios.
-          </p>
-
-          <h3 class="subsection-title">Research Interests</h3>
-          <ul class="list-unstyled">
-            <li><i class="fas fa-check-circle text-primary-blue me-2"></i><strong>Data-centric AI:</strong> Developing methodologies for improving AI through better data</li>
-            <li><i class="fas fa-check-circle text-primary-blue me-2"></i><strong>Human-AI Collaboration:</strong> Designing systems for effective human-AI interaction</li>
-            <li><i class="fas fa-check-circle text-primary-blue me-2"></i><strong>AI Literacy:</strong> Enhancing understanding and effective use of AI systems</li>
-            <li><i class="fas fa-check-circle text-primary-blue me-2"></i><strong>Large Language Models / NLP:</strong> Advancing natural language understanding and generation</li>
-          </ul>
-        </div>
-
-        <div class="col-lg-4">
-          <div class="custom-card">
-            <h4 class="card-title">Quick Links</h4>
-            <div class="d-grid gap-2">
-              <a href="members.html" class="btn btn-primary">Our Team</a>
-              <a href="research.html" class="btn btn-primary">View Research</a>
-              <a href="publications.html" class="btn btn-primary">Publications</a>
-              <a href="contact.html" class="btn btn-primary">Join Our Lab</a>
-            </div>
-          </div>
-
-          <div class="custom-card mt-3">
-            <h4 class="card-title">News</h4>
-            <div class="card-description">
-              <p class="mb-0"><strong>[2025.09]</strong> HAICoLab officially launched at Sogang University!</p>
-            </div>
-          </div>
-        </div>
+<section class="band" id="about"><div class="inner">
+  <div class="two">
+    <div class="prose">
+      <span class="eyebrow">About</span>
+      <div class="sec-head" style="margin-bottom:16px"><h2>Bridging linguistics, the humanities, and AI</h2></div>
+      <p>허윤석은 서강대학교 영문학부(Division of English)에서 언어와 인공지능의 접점을 연구하고 가르칩니다. 인간-AI 협업(Human-AI Collaboration), AI 리터러시, 인간 중심 AI, 자연어처리를 중심으로 연구하며, 언어학적·인문학적 통찰이 AI 시스템의 설계와 평가를 어떻게 이끌 수 있는지에 관심이 있습니다.</p>
+      <p>Before joining the Division of English, my research focused on core NLP and multimodal learning: word sense disambiguation, Korean named entity recognition, multimodal machine translation, audio-visual scene-aware dialog, scene graph reasoning, and controllable video captioning. Recent work moves toward culturally grounded reasoning in large language models, process reward models, persona-based data augmentation, and LLM-driven analysis of literary text.</p>
+      <p>In the classroom I teach students in the humanities to read, question, and build with AI — from vibe coding and data analysis to prompt engineering and benchmark construction — so that humanistic expertise becomes a source of value in the AI era.</p>
+    </div>
+    <div>
+      <span class="eyebrow">Research interests</span>
+      <div class="interests" style="margin-bottom:28px">
+        <span>Human-AI Collaboration</span><span>AI Literacy</span><span>Human-centered AI</span><span>Natural Language Processing</span><span>Cultural Reasoning in LLMs</span><span>Multimodal Learning</span><span>Data-Centric AI</span><span>Computational Literary Studies</span>
       </div>
+      <span class="eyebrow">At a glance</span>
+      <ul class="kv">
+        <li><span>Position</span><div>Assistant Professor, Department of English Literature and Linguistics, Division of English, Sogang University</div></li>
+        <li><span>Lab</span><div>HAICoLab — Human-AI Collaboration Lab for Data-Centric Research (<a href="members.html">Members</a>)</div></li>
+        <li><span>Office</span><div>J825, Sogang University</div></li>
+        <li><span>Email</span><div><a href="mailto:nlpysheo@sogang.ac.kr">nlpysheo@sogang.ac.kr</a></div></li>
+        <li><span>Phone</span><div>02-705-8295</div></li>
+        <li><span>Education</span><div>Ph.D. Computer Science and Engineering, Sogang University (2023)<br>Visiting Researcher, Carnegie Mellon University (2022)<br>M.S. / B.S. Computer Science and Engineering, Sogang University (2018 / 2016)</div></li>
+        <li><span>Profiles</span><div><a href="https://scholar.google.com/citations?user=rGa25MMAAAAJ" target="_blank" rel="noopener">Google Scholar</a> · <a href="https://www.linkedin.com/in/ysheo419" target="_blank" rel="noopener">LinkedIn</a></div></li>
+      </ul>
     </div>
   </div>
+</div></section>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container text-center">
-      <p class="mb-2">
-        <strong>HAICoLab</strong> - Human-AI Collaboration Lab for Data-Centric Research
-      </p>
-      <p class="mb-2">
-        English Division, Sogang University<br>
-        35 Baekbeom-ro, Mapo-gu, Seoul, South Korea
-      </p>
-      <p class="mb-0">
-        &copy; 2026 HAICoLab. All rights reserved.
-      </p>
+<section class="band band-tint" id="research"><div class="inner">
+  <div class="sec-head"><div><h2>Research Areas</h2><p>Four threads that connect my past work in NLP and multimodal learning with current questions about how people and AI think together.</p></div></div>
+  <div class="cards four">
+    <div class="card"><div class="icon">🤝</div><h3>Human-AI Collaboration &amp; Human-centered AI</h3><p>How people and language models can collaborate productively — interactive, controllable systems designed around human needs rather than model capability alone.</p><div class="tags"><span class="tag-chip">Controllable Generation</span><span class="tag-chip">Interactive Systems</span></div></div>
+    <div class="card"><div class="icon">🌏</div><h3>Cultural Reasoning &amp; Alignment of LLMs</h3><p>Understanding when models recognize local cultural norms yet override them mid-reasoning, and building process reward models and persona-aware data to fix it.</p><div class="tags"><span class="tag-chip">Process Reward Models</span><span class="tag-chip">Data Augmentation</span></div></div>
+    <div class="card"><div class="icon">🎬</div><h3>Multimodal Language Understanding</h3><p>Grounding language in vision and audio: multimodal machine translation, audio-visual scene-aware dialog, scene graph reasoning, and video captioning.</p><div class="tags"><span class="tag-chip">Vision-Language</span><span class="tag-chip">Dialog</span></div></div>
+    <div class="card"><div class="icon">📚</div><h3>AI Literacy &amp; AI for the Humanities</h3><p>Data-centric AI education for humanities students, and LLM-based analysis of literary text — for example narrative function transitions in Hemingway.</p><div class="tags"><span class="tag-chip">AI Education</span><span class="tag-chip">Computational Literary Studies</span></div></div>
+  </div>
+</div></section>
+
+<section class="band" id="publications"><div class="inner">
+  <div class="sec-head"><h2>Selected Publications</h2><a class="more" href="publications.html">View all →</a></div>
+  <div class="pub-compact" id="selected-pubs"></div>
+</div></section>
+
+<section class="band band-off" id="teaching"><div class="inner">
+  <div class="sec-head"><div><h2>Teaching</h2><p>Courses at Sogang University, 2026. Designed for students in the English Division and the humanities.</p></div><a class="more" href="teaching.html">All courses →</a></div>
+  <div class="cards three">
+    <a class="card" href="teaching.html#eng2112"><div class="tags" style="margin:0 0 4px;padding:0"><span class="tag-chip">ENG2112 · Fall 2026</span></div><h3>AI와 언어학 <small style="display:block;font-weight:500;color:var(--fg3);font-size:13px">Linguistics with AI</small></h3><p>The consilience of linguistics and AI: from syntax and parsing to Transformers and prompt engineering, with human-centered design.</p></a>
+    <a class="card" href="teaching.html#eng3510"><div class="tags" style="margin:0 0 4px;padding:0"><span class="tag-chip">ENG3510 · Fall 2026</span></div><h3>인공지능을 위한 데이터분석 <small style="display:block;font-weight:500;color:var(--fg3);font-size:13px">Data Analysis for AI</small></h3><p>Hands-on text data analysis for humanities students through Python, vibe coding, and generative AI.</p></a>
+    <a class="card" href="teaching.html#sts2026"><div class="tags" style="margin:0 0 4px;padding:0"><span class="tag-chip">STS2026 · Fall 2026</span></div><h3>생성형 AI의 이해와 활용 <small style="display:block;font-weight:500;color:var(--fg3);font-size:13px">Understanding &amp; Using Generative AI</small></h3><p>Principles of generative AI for non-majors, AI and society, and team projects that create value with AI tools.</p></a>
+  </div>
+</div></section>
+
+<section class="band" id="contact"><div class="inner">
+  <div class="two">
+    <div>
+      <span class="eyebrow">Contact</span>
+      <div class="sec-head" style="margin-bottom:12px"><h2>Get in touch</h2></div>
+      <p class="prose" style="color:var(--fg2)">연구 협력, 강의 관련 문의, 학부·대학원 연구 참여에 관심 있는 학생은 이메일로 연락해 주세요. Office hours are by appointment via email.</p>
+      <div class="cta" style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap"><a class="btn primary" href="mailto:nlpysheo@sogang.ac.kr">Email me</a><a class="btn" href="https://github.com/HAICoLab" target="_blank" rel="noopener">GitHub ↗</a></div>
     </div>
-  </footer>
+    <ul class="kv">
+      <li><span>Office</span><div>J825, Sogang University<br>35 Baekbeom-ro, Mapo-gu, Seoul 04107</div></li>
+      <li><span>Email</span><div><a href="mailto:nlpysheo@sogang.ac.kr">nlpysheo@sogang.ac.kr</a></div></li>
+      <li><span>Phone</span><div>02-705-8295</div></li>
+      <li><span>Office hours</span><div>Weekdays 10:00–18:00, by appointment via email</div></li>
+    </ul>
+  </div>
+</div></section>
 
-  <!-- Bootstrap 5 JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</main>
+<footer><div class="inner">
+  <div><b>HAICoLab</b> — Human-AI Collaboration Lab for Data-Centric Research<br>Yoonseok Heo (허윤석) · Division of English, Sogang University<br>J825, 35 Baekbeom-ro, Mapo-gu, Seoul 04107</div>
+  <div style="text-align:right"><a href="mailto:nlpysheo@sogang.ac.kr">nlpysheo@sogang.ac.kr</a><br><a href="https://scholar.google.com/citations?user=rGa25MMAAAAJ" target="_blank" rel="noopener">Google Scholar</a> · <a href="https://www.linkedin.com/in/ysheo419" target="_blank" rel="noopener">LinkedIn</a> · <a href="https://github.com/HAICoLab" target="_blank" rel="noopener">GitHub</a></div>
+</div></footer>
+<script src="js/data.js"></script><script src="js/main.js"></script>
 </body>
 </html>
