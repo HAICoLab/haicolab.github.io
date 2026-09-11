@@ -218,4 +218,4 @@ footer a:hover{color:var(--fg)}
 /* nav crowding fix */
 .logo small{white-space:nowrap}
 .links{gap:22px}
-@media(max-width:900px){.logo small{display:none}}
+@media(max-width:1100px){.logo small{display:none}}
