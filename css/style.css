@@ -195,3 +195,27 @@ footer a:hover{color:var(--fg)}
 .join h2{font-size:26px;font-weight:800;letter-spacing:-.03em}
 .join p{opacity:.9;margin-top:6px;max-width:560px}
 .join .btn{background:#fff;color:var(--accent2);border-color:#fff}
+
+/* ---------- awards ---------- */
+.stats{grid-template-columns:repeat(6,1fr)}
+@media(max-width:860px){.stats{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:520px){.stats{grid-template-columns:repeat(2,1fr)}}
+.awards{display:grid;gap:16px}
+.award{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;display:grid;grid-template-columns:56px 1fr;gap:16px;transition:transform .2s,box-shadow .2s}
+.award:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.award .medal{width:56px;height:56px;border-radius:14px;background:var(--gold-soft);display:grid;place-items:center;font-size:26px}
+.award-meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.award-name{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);background:var(--gold-soft);border-radius:6px;padding:3px 8px}
+.award-date{font-size:12.5px;font-weight:700;color:var(--fg3)}
+.award h3{font-size:18px;font-weight:800;letter-spacing:-.02em;line-height:1.3}
+.award h3 small{display:block;font-weight:500;color:var(--fg3);font-size:13px;margin-top:2px}
+.award-work{margin-top:8px;font-size:15px;font-weight:600;color:var(--fg)}
+.award-work span{display:block;font-weight:400;color:var(--fg3);font-size:13px;margin-top:2px}
+.award-who{margin-top:8px;font-size:14px;color:var(--fg2)}
+.award-who a,.award-by a{color:var(--accent2);font-weight:600}
+.award-by{margin-top:4px;font-size:13px;color:var(--fg3)}
+@media(max-width:600px){.award{grid-template-columns:1fr}}
+/* nav crowding fix */
+.logo small{white-space:nowrap}
+.links{gap:22px}
+@media(max-width:900px){.logo small{display:none}}
