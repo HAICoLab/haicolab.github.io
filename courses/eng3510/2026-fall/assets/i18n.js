@@ -12,13 +12,13 @@
         el.setAttribute(a,el.getAttribute('data-'+a+'-'+lang));
       });
     });
-    document.querySelectorAll('.lang-toggle').forEach(function(b){ b.textContent=b.getAttribute('data-'+lang); b.setAttribute('aria-label',lang==='ko'?'Switch to English':'한국어로 보기'); });
+    document.querySelectorAll('.lang-btn').forEach(function(b){ var on=b.getAttribute('data-lang')===lang; b.classList.toggle('on',on); b.setAttribute('aria-pressed',on?'true':'false'); });
     try{ localStorage.setItem(KEY,lang); }catch(e){}
   }
   // early pass (in <head>) prevents a flash of Korean before the DOM is ready
   root.setAttribute('data-lang',get());
   if(document.currentScript && document.currentScript.hasAttribute('data-init')){
     apply(get());
-    document.querySelectorAll('.lang-toggle').forEach(function(b){ b.addEventListener('click',function(){ apply(root.getAttribute('data-lang')==='ko'?'en':'ko'); }); });
+    document.querySelectorAll('.lang-btn').forEach(function(b){ b.addEventListener('click',function(){ apply(b.getAttribute('data-lang')); }); });
   }
 })();
