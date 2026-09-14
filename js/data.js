@@ -10,6 +10,14 @@ window.PUBS = [
     selected: true
   },
   {
+    year: 2026, type: "domestic", venue: "HCLT 2026 · Oral",
+    title: "방송심의 위반 사례 기반 합성 벤치마크를 활용한 에이전트 규정 검색 평가",
+    authors: "조소영, 허윤석",
+    where: "제38회 한글 및 한국어 정보처리 학술대회 (HCLT 2026), 부산, 2026.10.7–8  ·  Oral presentation",
+    links: [],
+    selected: true
+  },
+  {
     year: 2026, type: "domestic", venue: "KCC 2026", award: "학부 우수논문상 (장려)",
     title: "헤밍웨이 단편 소설에 대한 LLM 기반 서사 기능 전이 패턴 분석과 문학 비평의 정합성 검증",
     subtitle: "An LLM-Based Analysis of Narrative Function Transition Patterns in Hemingway's Short Stories and Their Alignment with Literary Criticism",
