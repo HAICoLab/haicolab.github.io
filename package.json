@@ -1,0 +1,10 @@
+{
+  "name": "haicolab-bilingual-preview",
+  "private": true,
+  "scripts": {
+    "build:english": "node scripts/build-english.cjs"
+  },
+  "devDependencies": {
+    "jsdom": "29.1.1"
+  }
+}

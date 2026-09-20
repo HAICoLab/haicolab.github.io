@@ -1,45 +1,46 @@
-# Yoonseok Heo — Personal Homepage
+# HAICoLab — Human-AI Collaboration Lab
 
-정적 HTML/CSS/JS로 만든 개인 홈페이지입니다. 별도 빌드 도구 없이 바로 열 수 있습니다.
+서강대학교 HAICoLab의 정적 HTML/CSS/JavaScript 홈페이지입니다. GitHub Pages가 `main` 브랜치의 루트에서 배포합니다. 기존 도메인은 `CNAME`에서 관리합니다.
 
-## 구조
+## 페이지와 언어
 
+기본 화면은 KR이며 Contact 옆 LANG 메뉴에서 🇰🇷 KR / 🇺🇸 EN을 선택합니다. 언어 전환 시 현재 페이지, 세부 섹션, 논문 필터를 유지합니다.
+
+- `index.html`: 교수 소개, 성과 요약, 네 연구 분야, 최신 News·Awards, Join Our Lab
+- `members.html`: Professor, Research Background, Students, Alumni
+- `research.html`: 연구 분야별 상세 소개와 최신 관련 논문 최대 3편
+- `publications.html`: 전체 논문과 연구 분야·출판 유형 조합 필터
+- `news.html`, `awards.html`: 전체 소식과 수상 기록
+- `projects.html`, `teaching.html`, `contact.html`: 과제, 강의, 연락처
+- `en/*.html`: 영어 페이지
+- `courses/`, `assets/`: 기존 강의 사이트와 사진·논문·강의계획서 자료
+
+## 콘텐츠 관리
+
+`js/data.js`의 `PUBS`가 논문 목록과 성과 집계의 공통 데이터입니다.
+
+- `type`: `journal`, `conference`, `workshop`, `domestic`, `preprint`
+- `areas`: `knowledge`, `pluralism`, `creativity`, `learning` 중 하나 이상
+- `indexing`: 저널에만 `SCIE` 또는 `KCI` 지정
+- `AWARDS`: 날짜 내림차순으로 홈에는 최대 3건, Awards 페이지에는 전체 기록 표시
+
+영문 논문·수상 표기는 `en/js/data-en.js`에서 관리합니다. 한국어 논문은 영문·한글 제목을 병기하며, 직접 번역한 제목은 번역임을 표시합니다. 한국인 구성원 이름은 영문·한글을 함께 표시합니다.
+
+## 영문 페이지 갱신
+
+`scripts/build-english.cjs`는 루트 페이지의 레이아웃을 기반으로 영문 페이지를 생성합니다. 영문 본문을 수정하려면 이 파일의 번역 문구를 수정한 뒤 실행합니다.
+
+```sh
+npm install
+npm run build:english
 ```
-index.html          홈 (Hero · News · About · Research Areas · Selected Publications · Teaching · Contact)
-publications.html   전체 논문 목록 (연도별, 카테고리 필터)
-teaching.html       강의 목록 (2026 Fall / Spring, 강의계획서 PDF)
-members.html        구성원 (교수 · 대학원생 · 학부 인턴)
-projects.html       연구 과제
-css/style.css       스타일
-js/data.js          논문 데이터 (여기만 수정하면 홈/논문 페이지에 모두 반영)
-js/main.js          렌더링 스크립트
-assets/img/         프로필 사진
-assets/pdf/         강의계획서, 논문 PDF, 포스터
-```
 
-## 로컬에서 보기
+이미 생성된 HTML이 포함되어 있으므로 배포 시 별도 빌드는 필요하지 않습니다. `.nojekyll`로 정적 파일을 그대로 제공합니다. 기존 강의 사이트와 PDF는 원문 언어로 유지합니다.
 
-```bash
+## 로컬 확인
+
+```sh
 python3 -m http.server 8000
-# → http://localhost:8000
 ```
 
-## 논문 추가하기
-
-`js/data.js`의 `PUBS` 배열에 항목을 추가합니다.
-
-```js
-{
-  year: 2026, type: "conference",      // journal | conference | domestic | preprint
-  venue: "ACL 2026", hot: true,        // hot: 🔥 배지
-  title: "...", authors: "..., Yoonseok Heo*", where: "...",
-  links: [{label: "PDF", href: "assets/pdf/xxx.pdf"}],   // {label:"Scholar", scholar:true} 도 가능
-  cites: 0, selected: true             // selected: 홈 화면 노출
-}
-```
-
-## 배포 (GitHub Pages)
-
-1. GitHub에 저장소를 만들고 이 폴더를 push
-2. Settings → Pages → Branch: `main` / root 선택
-3. `https://<계정>.github.io/<저장소>/` 에서 확인
+KR: `http://localhost:8000/` · EN: `http://localhost:8000/en/index.html`
