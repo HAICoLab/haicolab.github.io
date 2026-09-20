@@ -31,7 +31,7 @@ window.PUBS = [
     title: "Mi:dm 2.0 Korea-centric Bilingual Language Models",
     authors: "Donghoon Shin et al. (including Yoonseok Heo)",
     where: "KT · Technical report · arXiv:2601.09066 · January 14, 2026",
-    links: [{label: "arXiv", href: "https://arxiv.org/abs/2601.09066"}, {label: "PDF", href: "https://arxiv.org/pdf/2601.09066"}],
+    links: [{label: "arXiv", href: "https://arxiv.org/abs/2601.09066"}, {label: "MODELS", href: "https://huggingface.co/collections/K-intelligence/mi-dm-20"}],
     selected: true
   },
   {
