@@ -14,7 +14,7 @@ window.PUBS = [
     title: "방송심의 위반 사례 기반 합성 벤치마크를 활용한 에이전트 규정 검색 평가",
     authors: "조소영, 허윤석",
     where: "제38회 한글 및 한국어 정보처리 학술대회 (HCLT 2026), 부산, 2026.10.7–8  ·  Oral presentation",
-    links: [],
+    links: [{label: "Link", href: "https://sites.google.com/view/hclt2026/%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8?authuser=0#h.redc5g722caw"}],
     selected: true
   },
   {
@@ -29,9 +29,9 @@ window.PUBS = [
   {
     year: 2026, type: "preprint", venue: "arXiv · Technical Report",
     title: "Mi:dm 2.0 Korea-centric Bilingual Language Models",
-    authors: "Donghoon Shin et al. (including Yoonseok Heo)",
+    authors: "D. Shin et al. · Co-author: Yoonseok Heo",
     where: "KT · Technical report · arXiv:2601.09066 · January 14, 2026",
-    links: [{label: "arXiv", href: "https://arxiv.org/abs/2601.09066"}, {label: "MODELS", href: "https://huggingface.co/collections/K-intelligence/mi-dm-20"}],
+    links: [{label: "arXiv", href: "https://arxiv.org/abs/2601.09066"}, {label: "Models", href: "https://huggingface.co/collections/K-intelligence/mi-dm-20"}],
     selected: true
   },
   {
