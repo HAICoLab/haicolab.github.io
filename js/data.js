@@ -6,7 +6,7 @@ window.PUBS = [
     title: "CulturePRM: A Process Reward Model for Mitigating Cultural Overriding in Cultural Reasoning",
     authors: "Ji-Eun Han, Yoonseok Heo*",
     where: "Proceedings of EMNLP 2026 (Main Conference) · Budapest, Hungary · October 24–29, 2026 · *Corresponding author",
-    links: [{label: "PDF", href: "assets/pdf/EMNLP2026_CulturePRM.pdf"}, {label: "Code", href: "https://github.com/haicolab-git/CulturePRM"}],
+    links: [{label: "PDF", href: "assets/pdf/EMNLP2026_CulturePRM.pdf"}, {label: "Code", href: "https://github.com/HAICoLab/CulturePRM"}],
     selected: true
   },
   {
