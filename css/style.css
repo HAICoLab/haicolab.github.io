@@ -231,6 +231,8 @@ footer a:hover{color:var(--fg)}
 .home-hero .grid{grid-template-columns:minmax(0,1.4fr) minmax(0,.9fr);gap:44px}
 .home-hero h1{font-size:clamp(36px,4.5vw,54px);line-height:1.2;letter-spacing:-.055em}
 .home-hero h1 em{font-style:normal}
+html[lang="ko"] .hero-intro{container-type:inline-size}
+html[lang="ko"] .home-hero h1{font-size:min(54px,9cqi);white-space:nowrap}
 .hero-english{margin-top:16px;font-size:16px;font-weight:500;color:var(--fg2);max-width:480px}
 .home-hero .lead{max-width:720px;line-height:1.85;font-size:16px}
 .home-hero .name{margin-top:24px;font-size:23px}
