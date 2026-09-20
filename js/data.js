@@ -141,7 +141,7 @@ window.SCHOLAR_URL = "https://scholar.google.com/citations?user=rGa25MMAAAAJ";
 
 // Research-area labels are shared by publication badges and filters.
 window.RESEARCH_AREAS = {
-  "knowledge": "NLP & Knowledge-Centric AI",
+  "knowledge": "Knowledge-centric AI & NLP",
   "pluralism": "Pluralistic Alignment",
   "creativity": "Human-AI Co-Creativity",
   "learning": "AI for Language Learning & Assessment"
