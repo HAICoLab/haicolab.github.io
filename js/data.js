@@ -27,6 +27,14 @@ window.PUBS = [
     selected: true
   },
   {
+    year: 2026, type: "preprint", venue: "arXiv · Technical Report",
+    title: "Mi:dm 2.0 Korea-centric Bilingual Language Models",
+    authors: "Donghoon Shin et al. (including Ji-Eun Han and Yoonseok Heo)",
+    where: "KT · Technical report · arXiv:2601.09066 · January 14, 2026",
+    links: [{label: "arXiv", href: "https://arxiv.org/abs/2601.09066"}, {label: "PDF", href: "https://arxiv.org/pdf/2601.09066"}],
+    selected: true
+  },
+  {
     year: 2025, type: "preprint", venue: "arXiv",
     title: "Not All Personas Are Worth It: Culture-Reflective Persona Data Augmentation",
     authors: "Ji-Eun Han, Yoonseok Heo",
