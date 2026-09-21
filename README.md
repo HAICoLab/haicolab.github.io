@@ -2,6 +2,21 @@
 
 서강대학교 HAICoLab의 정적 HTML/CSS/JavaScript 홈페이지입니다. GitHub Pages가 `main` 브랜치의 루트에서 배포합니다. 기존 도메인은 `CNAME`에서 관리합니다.
 
+## 도메인 설정 보존
+
+루트의 `CNAME`은 홈페이지 운영에 필요한 파일이며, Git에 계속 포함해야 합니다. 파일명은 대문자 `CNAME`, 내용은 아래 한 줄을 유지합니다.
+
+```text
+haicolab.sogang.ac.kr
+```
+
+- 명시적인 도메인 변경 요청이 없다면 삭제·이동·이름 변경·내용 변경을 하지 않습니다. `.gitignore`에도 추가하지 않습니다.
+- 홈페이지 전체 교체, 빌드 결과 업로드, 이전 버전 복원 시에도 이 파일을 보존합니다. 작업 전 원격 저장소의 최신 변경 사항을 먼저 반영합니다.
+- 커밋·푸시 전에 `CNAME`의 Git 추적 여부, 도메인 값, 삭제·변경 여부를 확인합니다. 배포 후에는 실제 도메인 `https://haicolab.sogang.ac.kr/`로 접속을 확인합니다.
+- GitHub Pages의 Custom domain과 조직의 Verified domain 설정, 학교 DNS의 CNAME 및 인증용 TXT 레코드를 유지합니다.
+
+AI 작업자를 위한 동일한 보존 규칙은 [AGENTS.md](AGENTS.md)에 명시되어 있습니다. 자세한 설정 요건은 [GitHub의 사용자 지정 도메인 문제 해결 안내](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages)를 참고하세요.
+
 ## 페이지와 언어
 
 기본 화면은 KR이며 Contact 옆 LANG 메뉴에서 🇰🇷 KR / 🇺🇸 EN을 선택합니다. 언어 전환 시 현재 페이지, 세부 섹션, 논문 필터를 유지합니다.
