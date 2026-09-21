@@ -93,6 +93,7 @@ for (const file of pages) {
  if(file==='contact.html') {
   set(d,'.page-head p','We welcome inquiries about research collaboration and opportunities to join the lab.');
   set(d,'.prose','Please email us about research collaboration, teaching, or undergraduate and graduate research opportunities. Office hours are available by appointment via email.');
+  set(d,'.graduate-admissions-note','Our current capacity for international graduate supervision is fully committed. Please check this page for updates on future openings.');
   for(const li of d.querySelectorAll('.kv li'))if(li.firstElementChild.textContent==='Phone')li.lastElementChild.textContent='+82-2-705-8295';
  }
  if(file==='projects.html') {
