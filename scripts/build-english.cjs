@@ -75,7 +75,7 @@ for (const file of pages) {
   set(d,'.research-home .sec-head p','Four research directions advancing Human–AI Collaboration.');
   for(const [area,r] of Object.entries(research)) {set(d,'.research-card.area-'+area+' .area-subtitle',r.subtitle);set(d,'.research-card.area-'+area+' .area-description',r.overview);set(d,'.research-card.area-'+area+' .area-more','Learn more ↗');}
   set(d,'#awards .sec-head p','Recent recognition for our research and projects.');
-  set(d,'.join p','We welcome undergraduate and graduate students interested in the intersection of language and AI. Students from any discipline who want to bring humanistic perspectives to AI research are encouraged to get in touch.');
+  set(d,'.join p','We are not currently accepting additional research interns or graduate students. Any future openings will be announced on this website.');
  }
  if(file==='research.html') {
   set(d,'.page-head p','Our research centers on Human–AI Collaboration: helping people make better decisions, create, and learn with AI.');
@@ -91,9 +91,9 @@ for (const file of pages) {
  if(file==='news.html') set(d,'.page-head p','Updates on publications, projects, teaching, and our lab community.');
  if(file==='awards.html') set(d,'.page-head p','Recognition for research and projects by members of HAICoLab.');
  if(file==='contact.html') {
-  set(d,'.page-head p','We welcome inquiries about research collaboration and opportunities to join the lab.');
-  set(d,'.prose','Please email us about research collaboration, teaching, or undergraduate and graduate research opportunities. Office hours are available by appointment via email.');
-  set(d,'.graduate-admissions-note','Our current capacity for international graduate supervision is fully committed. Please check this page for updates on future openings.');
+  set(d,'.page-head p','We welcome inquiries about research collaboration and teaching.');
+  set(d,'.prose','Please email us about research collaboration or teaching. Office hours are available by appointment via email.');
+  set(d,'.recruitment-note','<strong>Recruitment update</strong> · We are not currently accepting additional research interns or graduate students. Any future openings will be announced on this website.',true);
   for(const li of d.querySelectorAll('.kv li'))if(li.firstElementChild.textContent==='Phone')li.lastElementChild.textContent='+82-2-705-8295';
  }
  if(file==='projects.html') {
@@ -128,7 +128,7 @@ for (const file of pages) {
  // Shared assets stay in the parent directory; links among English pages stay local.
  for(const e of d.querySelectorAll('[href],[src]'))for(const attr of ['href','src']){const v=e.getAttribute(attr);if(v&&/^(assets|css|js|courses)\//.test(v))e.setAttribute(attr,'../'+v);}
  for(const img of d.querySelectorAll('img'))if(/[가-힣]/.test(img.alt))img.alt='Yoonseok Heo (허윤석), Ph.D. in Computer Science and Engineering';
- const meta=d.querySelector('meta[name="description"]');if(meta)meta.content=({ 'index.html':'HAICoLab at Sogang University studies Human–AI Collaboration across knowledge, creativity, culture, and learning.', 'research.html':'Four research directions in Human–AI Collaboration at HAICoLab.', 'members.html':'Meet the faculty and students at HAICoLab, Sogang University.', 'news.html':'News from HAICoLab.', 'awards.html':'Research and project awards received by HAICoLab members.', 'contact.html':'Contact HAICoLab at Sogang University.' })[file]||'HAICoLab — Human–AI Collaboration Lab at Sogang University.';
+ const meta=d.querySelector('meta[name="description"]');if(meta)meta.content=({ 'index.html':'HAICoLab at Sogang University studies Human–AI Collaboration across knowledge, creativity, culture, and learning.', 'research.html':'Four research directions in Human–AI Collaboration at HAICoLab.', 'members.html':'Meet the faculty and students at HAICoLab, Sogang University.', 'news.html':'News from HAICoLab.', 'awards.html':'Research and project awards received by HAICoLab members.', 'contact.html':'HAICoLab contact information and recruitment updates.' })[file]||'HAICoLab — Human–AI Collaboration Lab at Sogang University.';
  d.title=d.title.replace(/허윤석/g,'Yoonseok Heo');
  const mainScript=d.querySelector('script[src="../js/main.js"]');
  const localized=d.createElement('script');localized.src='js/data-en.js';mainScript.before(localized);

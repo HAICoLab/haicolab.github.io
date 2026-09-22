@@ -21,7 +21,7 @@ AI 작업자를 위한 동일한 보존 규칙은 [AGENTS.md](AGENTS.md)에 명�
 
 기본 화면은 KR이며 Contact 옆 LANG 메뉴에서 🇰🇷 KR / 🇺🇸 EN을 선택합니다. 언어 전환 시 현재 페이지, 세부 섹션, 논문 필터를 유지합니다.
 
-- `index.html`: 교수 소개, 성과 요약, 네 연구 분야, 최신 News·Awards, Join Our Lab
+- `index.html`: 교수 소개, 성과 요약, 네 연구 분야, 최신 News·Awards, Lab Recruitment
 - `members.html`: Professor, Research Background, Students, Alumni
 - `research.html`: 연구 분야별 상세 소개와 최신 관련 논문 최대 3편
 - `publications.html`: 전체 논문과 연구 분야·출판 유형 조합 필터
