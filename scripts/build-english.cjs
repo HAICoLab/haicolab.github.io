@@ -4,6 +4,9 @@ const path = require('path');
 const {JSDOM} = require('jsdom');
 const root = path.resolve(__dirname, '..');
 const pages = fs.readdirSync(root).filter(f => f.endsWith('.html'));
+// Members includes current graduate students and undergraduate interns only.
+const memberDocument = new JSDOM(fs.readFileSync(path.join(root, 'members.html'), 'utf8')).window.document;
+const currentMemberCount = memberDocument.querySelectorAll('#students .member, #undergraduate-interns .member').length;
 const names = {cho:'Soyoung Cho (조소영)',lee:'Seowoo Lee (이서우)',nam:'Goeun Nam (남고은)',kim:'Hyunjae Kim (김현재)',heo:'Yoonseok Heo (허윤석)'};
 const news = {
  '2026.10.07|Paper / Award': `<b>${names.cho}</b> received a <b>Best Paper Award</b> for an oral presentation at <b>HCLT 2026</b>: Evaluating Agents’ Regulatory Retrieval Using a Synthetic Benchmark Based on Broadcast Review Violations.<span class="original-title" lang="ko">방송심의 위반 사례 기반 합성 벤치마크를 활용한 에이전트 규정 검색 평가</span>`,
@@ -68,6 +71,7 @@ for (const file of pages) {
  d.querySelectorAll('[aria-label]').forEach(e=>{if(!e.closest('.language-picker') && /[가-힣]/.test(e.getAttribute('aria-label')))e.setAttribute('aria-label',e.classList.contains('burger')?'Open menu':'Learn more about this research area');});
  set(d,'.skip-link','Skip to content');
  if(file==='index.html') {
+  set(d,'#stat-members',String(currentMemberCount));
   set(d,'.home-hero h1','People and AI,<br><em>further together.</em>',true);
   set(d,'.hero-credentials strong','AI / NLP Researcher');
   set(d,'.hero-affiliation','Assistant Professor · Division of English, Sogang University');
@@ -160,6 +164,7 @@ for (const file of pages) {
  fs.writeFileSync(path.join(root,'en',file),dom.serialize());
  // Preserve the current text on the Korean side, adding only the language switch.
  const ko=new JSDOM(source),kd=ko.window.document;
+ if(file==='index.html') set(kd,'#stat-members',String(currentMemberCount));
  kd.querySelectorAll('.language-switch,.language-picker').forEach(e=>e.remove());
  kd.querySelector('.nav-links').insertAdjacentHTML('beforeend',languagePicker(file,false));
  if(!kd.querySelector('script[src="js/language.js"]')){const s=kd.createElement('script');s.src='js/language.js';kd.body.append(s);}
