@@ -12,6 +12,9 @@
     "test": "node database.test.mjs",
     "test:browser": "node browser.test.mjs",
     "test:teammates": "node idea-teammates.test.mjs",
-    "test:teammates:browser": "node idea-teammates-browser.test.mjs"
+    "test:teammates:browser": "node idea-teammates-browser.test.mjs",
+    "test:notifications": "node notifications.test.mjs",
+    "test:offer-window": "node offer-window-browser.test.mjs",
+    "test:mail-worker": "deno test --node-modules-dir=none ../../supabase/functions/team-notifications/worker.test.ts"
   }
 }

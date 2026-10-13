@@ -1,0 +1,5 @@
+project_id = "eng3510-team-building"
+
+[functions.team-notifications]
+# A dedicated cron secret is verified in the handler. Student JWTs are not accepted.
+verify_jwt = false

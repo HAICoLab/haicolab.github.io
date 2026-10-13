@@ -1,2 +1,8 @@
 node_modules/
 .DS_Store
+
+# Local notification secrets and Supabase CLI state
+.env
+.env.*
+!.env.example
+supabase/.temp/

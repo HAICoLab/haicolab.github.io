@@ -39,7 +39,7 @@ assert.equal(await page.locator('#image').getAttribute('required'),'');
 assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
 console.log('PASS browser: desktop/mobile demo, filters, search, detail, required image, no overflow');
 
-const f=await fixture(course);const {db,admin,users:[a,b,c],act,post}=f;
+const f=await fixture(course,{notifications:course==='eng3510'});if(course==='eng3510')await f.db.exec("update team_private.settings set offers_open_at=now()-interval '1 day'");const {db,admin,users:[a,b,c],act,post}=f;
 const ai=(await post(a)).id;
 await act(b,'apply',{idea_id:ai,message:'조사와 디자인을 함께하고 싶습니다.'});
 await act(c,'comment',{idea_id:ai,body:'<img src=x onerror="window.XSS=true">'});

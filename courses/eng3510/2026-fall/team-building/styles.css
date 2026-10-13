@@ -7,3 +7,8 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
 .existing-teammates{min-width:0;margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:16px}.existing-teammates legend{padding:0 8px;font-weight:700}.existing-teammates .hint{margin:8px 0 16px}.existing-teammates a{text-decoration:underline}
+
+/* Timed matching: disabled controls stay visibly inactive during replies. */
+.btn:disabled{opacity:.48;cursor:not-allowed;transform:none}
+.offer-window{padding:12px 14px;border-left:3px solid #c7a562;background:#faf5e9;border-radius:4px;line-height:1.7}
+.offer-window[hidden]{display:none}
