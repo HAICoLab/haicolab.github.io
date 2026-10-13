@@ -11,7 +11,10 @@ type Dependencies = {
   env: (name: string) => string | undefined;
   fetch: typeof fetch;
   pause?: (ms: number) => Promise<void>;
+  gmailSend?: (mail: Mail, id: string, user: string, password: string) => Promise<Delivery>;
 };
+export type Mail = { from: string; to: string[]; subject: string; text: string; html: string };
+export type Delivery = { providerID: string | null; errorCode: string | null; retryable: boolean };
 const site = 'https://haicolab.sogang.ac.kr/courses/eng3510/2026-fall/team-building/';
 const events: Record<string, [string, string]> = {
   application_received: ['새 합류 지원', '팀에 합류 지원을 보냈습니다.'],
@@ -25,7 +28,7 @@ const escapeHTML = (value: string) => value.replace(/[&<>"']/g, c => ({ '&': '&a
 
 export function emailFor(job: Job, from: string) {
   const event = events[job.event];
-  if (!event || !job.recipient_email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(job.recipient_email)) {
+  if (!event || !job.recipient_email || !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(job.recipient_email)) {
     throw new Error('invalid_notification');
   }
   const link = site + (job.event === 'project_comment' ? '#idea/' + encodeURIComponent(job.idea_id) : '#activity');
@@ -59,10 +62,25 @@ export function createHandler(deps: Dependencies) {
     }
     const url = deps.env('SUPABASE_URL');
     const key = deps.env('SUPABASE_SERVICE_ROLE_KEY');
+    const provider = deps.env('TEAM_MAIL_PROVIDER') || 'resend';
     const resend = deps.env('RESEND_API_KEY');
-    const from = deps.env('TEAM_MAIL_FROM');
-    if (!url || !key || !resend || !from || !from.includes('@') || /[\r\n]/.test(from)) {
+    const gmailUser = deps.env('GMAIL_USER') || '';
+    const gmailPassword = (deps.env('GMAIL_APP_PASSWORD') || '').replace(/\s/g, '');
+    const gmailReady = !!deps.gmailSend && /^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(gmailUser) && /^[a-z]{16}$/.test(gmailPassword);
+    const from = provider === 'gmail' ? `ENG3510 팀빌딩 <${gmailUser}>` : deps.env('TEAM_MAIL_FROM');
+    if (!url || !key || !from || !from.includes('@') || /[\r\n]/.test(from) ||
+        (provider === 'gmail' ? !gmailReady : provider !== 'resend' || !resend)) {
       return Response.json({ error: 'notification_service_not_configured' }, { status: 503 });
+    }
+    // Only the secret holder can request a fixed, self-addressed connection test.
+    // No caller-selected recipient or message is accepted, and no student data is read.
+    if (new URL(request.url).searchParams.get('self_test') === '1') {
+      if (provider !== 'gmail') return Response.json({ error: 'gmail_required' }, { status: 400 });
+      const text = 'ENG3510 프로젝트 팀빌딩의 Gmail 알림 연결 확인 메일입니다. 학생에게 발송된 메일이 아닙니다.';
+      try {
+        const result = await deps.gmailSend!({ from, to: [gmailUser], subject: '[ENG3510 팀빌딩] Gmail 알림 연결 확인', text, html: `<p>${text}</p>` }, crypto.randomUUID(), gmailUser, gmailPassword);
+        return Response.json({ sent: !!result.providerID, error: result.errorCode }, { status: result.providerID ? 200 : 503 });
+      } catch { return Response.json({ sent: false, error: 'smtp_delivery_unconfirmed' }, { status: 503 }); }
     }
     async function rpc(name: string, payload: object) {
       const result = await deps.fetch(`${url}/rest/v1/rpc/${name}`, {
@@ -89,7 +107,15 @@ export function createHandler(deps: Dependencies) {
         let providerID: string | null = null;
         let errorCode: string | null = null;
         let retryable = true;
-        try {
+        if (provider === 'gmail') {
+          // SMTP has no idempotency API. Persist the start BEFORE sending so an
+          // expired lease or failed acknowledgement cannot send this mail twice.
+          const started = await rpc('tb_begin_notification_delivery', { job_id: job.id, token: job.lease_token });
+          if (!started) { deferred++; continue; }
+          try {
+            ({ providerID, errorCode, retryable } = await deps.gmailSend!(body, job.id, gmailUser, gmailPassword));
+          } catch { errorCode = 'smtp_delivery_unconfirmed'; retryable = false; }
+        } else try {
           const response = await deps.fetch('https://api.resend.com/emails', {
             method: 'POST',
             headers: { authorization: `Bearer ${resend}`, 'Content-Type': 'application/json', 'Idempotency-Key': `eng3510-notification/${job.id}` },
@@ -105,8 +131,8 @@ export function createHandler(deps: Dependencies) {
             retryable = response.status === 429 || response.status >= 500 || response.status === 408;
           }
         } catch { errorCode = 'provider_network_error'; }
-        // If acknowledgement fails, keep the lease. A later worker retries with
-        // the same provider idempotency key instead of creating a second email.
+        // Resend can retry the same idempotency key. SMTP attempts with an
+        // uncertain outcome stay marked for review instead of being resent.
         const acknowledged = await rpc('tb_finish_notification', {
           job_id: job.id, token: job.lease_token, provider_id: providerID, error_code: errorCode, retryable,
         });

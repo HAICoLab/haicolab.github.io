@@ -19,7 +19,7 @@ export async function fixture(course=process.env.TEAM_COURSE||'sts2026',{notific
  `);
  // Historical migration suites deliberately start from the pre-notification schema.
  let setup=await readFile(new URL(`../../courses/${course}/2026-fall/team-building/setup.sql`,import.meta.url),'utf8');
- if(!notifications)setup=setup.replace(/-- BEGIN 20261013 notifications and offer window[\s\S]*?-- END 20261013 notifications and offer window\n/,'');
+ if(!notifications)setup=setup.replace(/-- BEGIN 20261013 notifications and offer window[\s\S]*?-- END 20261013 notifications and offer window\n/,'').replace(/-- BEGIN 20261013 Gmail delivery[\s\S]*?-- END 20261013 Gmail delivery\n/,'');
  const results=await db.exec(setup);
  const code=results.at(-1).rows[0].professor_invite_code;
  async function signup(sn,invite){const id=randomUUID();await db.query('insert into auth.users(id,email,raw_user_meta_data) values($1,$2,$3)',[id,`${sn}@example.edu`,JSON.stringify({student_number:sn,invite_code:invite,role:'admin'})]);return id;}

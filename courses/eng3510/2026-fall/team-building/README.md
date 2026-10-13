@@ -126,36 +126,38 @@ scripts/team-building/node_modules/.bin/esbuild scripts/team-building/node_modul
 
 SQL 적용 후 ENG3510의 `app.js`와 `styles.css`를 GitHub Pages에 배포한다. 루트 `CNAME`은 보존한다. 새 화면은 서버에서 시작 허가를 받기 전에는 버튼을 활성화하지 않으므로 **DB를 먼저 적용**한다. 이메일 발송 준비와 무관하게 시간 제한을 먼저 운영할 수 있다.
 
-### 2. 이메일 발송 서비스 준비
+### 2. Gmail 자동 발송 연결
 
-현재 기본값은 `email_notifications_enabled=false`다. 키를 준비하지 않은 상태에서는 메일을 보내거나 과거 알림을 쌓지 않는다. Supabase의 가입·비밀번호 재설정 메일 설정과는 별도의 기능이다.
+기본값은 `email_notifications_enabled=false`다. 인증을 준비하지 않은 상태에서는 메일을 보내거나 과거 알림을 쌓지 않는다. Supabase의 가입·비밀번호 재설정 메일 설정과는 별도의 기능이다. 대화 도구에 연결된 Gmail 권한은 배포 서버로 이전되지 않는다.
 
-1. [Resend](https://resend.com/docs/dashboard/domains/introduction)에 발송용 도메인을 등록하고, 해당 도메인의 DNS 관리자가 안내된 SPF/DKIM 레코드를 추가한다. 기존 사이트의 `CNAME`은 변경하지 않는다. DNS를 관리할 수 있는 도메인이 필요하다.
-2. 인증된 도메인의 발신 주소를 정한다. 발송 권한의 Resend API 키를 생성한다.
-3. Supabase → Edge Functions → Secrets에 아래 값을 등록한다. API 키·비밀값은 브라우저 코드, Git, 채팅에 넣지 않는다.
+1. 위 기본 마이그레이션 다음에 [20261013_eng3510_gmail_delivery.sql](../../../../scripts/team-building/migrations/20261013_eng3510_gmail_delivery.sql)을 적용한다. 이미 기본 마이그레이션을 적용했다면 Gmail 파일만 실행한다. 신규 `setup.sql`에는 둘 다 포함되어 있다.
+2. 발신 Gmail 계정에서 2단계 인증을 켜고 [앱 비밀번호](https://myaccount.google.com/apppasswords)를 만든다. 일반 계정 비밀번호를 사용하지 않는다. Google 계정 인증과 앱 비밀번호 생성은 계정 소유자가 직접 진행한다.
+3. Supabase → Edge Functions → Secrets에 아래 값을 등록한다. 비밀값은 브라우저 코드, Git, 채팅에 넣지 않는다.
 
 | 이름 | 값 |
 |---|---|
-| `RESEND_API_KEY` | 발송용 Resend API 키 |
-| `TEAM_MAIL_FROM` | `ENG3510 팀빌딩 <인증된 발신 주소>` |
-| `TEAM_NOTIFICATION_SECRET` | 비밀번호 관리자로 생성한 32자 이상의 무작위 비밀값 |
+| `TEAM_MAIL_PROVIDER` | `gmail` |
+| `GMAIL_USER` | 발신 Gmail 주소 |
+| `GMAIL_APP_PASSWORD` | 생성된 16자리 앱 비밀번호 (표시용 공백 허용) |
+| `TEAM_NOTIFICATION_SECRET` | 32자 이상의 무작위 내부 인증값 |
 
-`SUPABASE_URL`과 `SUPABASE_SERVICE_ROLE_KEY`는 Supabase Edge 런타임의 기본 환경변수를 사용한다. 학생용 `config.js`에는 추가하지 않는다.
+Gmail은 `smtp.gmail.com:465`에 TLS로 연결한다. 발신 주소는 `GMAIL_USER`로 고정한다. 별도 도메인/DNS 인증은 필요 없다. `SUPABASE_URL`과 `SUPABASE_SERVICE_ROLE_KEY`는 Edge 런타임의 기본 환경변수를 사용하며 학생용 `config.js`에는 추가하지 않는다. 개인 Gmail에는 [하루 발송 한도](https://support.google.com/mail/answer/22839?hl=ko)가 있어 다른 용도의 발송량도 함께 고려한다. Google 계정 비밀번호를 변경하면 앱 비밀번호가 취소될 수 있다.
 
-4. Supabase Vault에 `eng3510_notification_secret`이라는 이름으로 **같은 `TEAM_NOTIFICATION_SECRET` 값**을 저장한다.
-5. 로그인된 터미널에서 `site/`를 작업 디렉터리로 하여 배포한다.
+4. Supabase Vault에 `eng3510_notification_secret`이라는 이름으로 **같은 `TEAM_NOTIFICATION_SECRET` 값**을 저장한다. 기존에 설정했다면 재생성하지 않는다.
+5. 로그인된 터미널에서 `site/`를 작업 디렉터리로 배포한다.
 
 ```sh
-npx supabase login
-npx supabase functions deploy team-notifications --project-ref ybotwermtuxtohbwyznm
+npx supabase functions deploy team-notifications --project-ref ybotwermtuxtohbwyznm --use-api
 ```
 
-`supabase/config.toml`은 함수의 자체 비밀값 인증을 사용하도록 설정한다. 익명 요청이나 학생 로그인 토큰으로는 발송할 수 없으며, 호출자가 임의 수신자·본문을 지정할 수도 없다. 서버 대기열에 기록된 수신자만 처리한다.
+`supabase/config.toml`은 함수의 자체 비밀값 인증을 사용하도록 설정한다. 익명 요청이나 학생 로그인 토큰으로는 발송할 수 없으며, 호출자가 임의 수신자·본문을 지정할 수도 없다. 서버 대기열의 수신자만 처리한다.
 
-6. 함수 배포와 비밀값 설정을 마친 뒤 SQL Editor에서 [20261013_eng3510_notification_cron.sql](../../../../scripts/team-building/migrations/20261013_eng3510_notification_cron.sql)을 실행한다. 분 단위 작업을 등록하고 **이후 발생한 활동부터** 알림을 활성화한다. 발송 서비스 상황과 대기열에 따라 도착은 지연될 수 있다.
-7. 본인이 관리하는 테스트 계정으로 지원 → 팀장 답변 → 공개 댓글을 수행하고, Resend 발송 기록과 수신함에서 확인한다. 허용 시각 이후 합류 제안·수락 알림도 확인한다. 로컬 테스트 통과는 실제 메일 도착을 증명하지 않는다.
+6. 내부 인증으로 `team-notifications?self_test=1`에 POST하면 발신 Gmail 본인에게만 연결 확인 메일 1건을 보낸다. 테스트는 학생 데이터나 대기열을 읽지 않는다. 실제 수신함에서 도착을 확인한 뒤 자동 알림을 켠다. 테스트 성공 응답만으로 수신함 도착을 단정하지 않는다.
+7. 함수 배포와 인증·수신 확인 후 [20261013_eng3510_notification_cron.sql](../../../../scripts/team-building/migrations/20261013_eng3510_notification_cron.sql)을 실행한다. 분 단위 작업을 등록하고 **이후 발생한 활동부터** 알림을 활성화한다. 이미 분 단위 작업을 준비했다면 `update team_private.settings set email_notifications_enabled=true;`만 실행한다. 발송 서비스 상황과 대기열에 따라 도착이 지연될 수 있다.
 
-구현 근거: [Supabase 이메일 발송](https://supabase.com/docs/guides/functions/examples/send-emails), [예약 실행과 Vault](https://supabase.com/docs/guides/functions/schedule-functions), [Resend 중복 방지 키](https://resend.com/docs/dashboard/emails/idempotency-keys).
+기존 Resend 방식도 지원한다. `TEAM_MAIL_PROVIDER=resend`, `RESEND_API_KEY`, `TEAM_MAIL_FROM`을 설정하면 인증된 도메인으로 발송한다. Gmail 설정이 불완전할 때 다른 서비스로 자동 전환하지 않는다.
+
+구현 근거: [Google 앱 비밀번호](https://support.google.com/accounts/answer/185833?hl=ko), [Gmail SMTP 설정](https://support.google.com/a/answer/176600), [Supabase 예약 실행과 Vault](https://supabase.com/docs/guides/functions/schedule-functions), [Edge 함수 제한](https://supabase.com/docs/guides/functions/limits).
 
 ### 알림 대상과 내용
 
@@ -169,9 +171,11 @@ npx supabase functions deploy team-notifications --project-ref ybotwermtuxtohbwy
 
 학생의 가입 이메일로 개별 발송한다. 제목은 과목과 활동 종류를 표시하고, 본문에는 프로젝트명·번호 ID·로그인 후 확인 링크만 담는다. 지원·답변 전문이나 다른 학생의 이메일은 메일에 넣지 않는다. 알림 메일로 회신해도 상대방에게 전달되지 않는다. 공개 댓글에서 팀장이 답해도 특정 질문자에게 자동 회신하는 구조는 아니며, 팀장→지원자 알림은 지원 카드의 비공개 답변을 대상으로 한다. 지원 카드에는 현재 최신 팀장 답변 하나가 표시된다.
 
-메일 오류가 나더라도 지원·댓글·팀 합류는 그대로 저장된다. 실패한 메일은 최대 6회 재시도하고 23시간을 넘긴 알림은 중단한다. 동일한 알림 ID로 중복 방지 키를 사용하며, 다른 작업자가 처리 중인 항목은 중복으로 가져가지 않는다. 과거 지원에 대한 소급 메일은 보내지 않는다.
+메일 오류가 나더라도 지원·댓글·팀 합류는 그대로 저장된다. 명확한 일시적 거절 등 안전한 실패는 최대 6회 재시도하고 23시간을 넘긴 알림은 중단한다. 과거 지원에 대한 소급 메일은 보내지 않는다.
 
-SQL Editor에서 발송 상태만 점검할 수 있다. `sent`는 발송 API가 접수했다는 뜻이며 수신함 도착 여부는 Resend의 발송 기록에서 확인한다.
+Gmail SMTP는 API 중복 방지 키를 지원하지 않는다. 발송 직전에 DB에 시작 표시를 남기고, 메일 전송 중 연결이 끊기거나 성공 후 DB 기록이 실패하면 `smtp_delivery_unconfirmed`로 보류한다. Gmail 보낸편지함에서 해당 Message-ID를 확인하기 전에는 재발송하지 않는다. 중복 발송 방지를 위해 이런 드문 상황에서는 알림이 누락될 수 있다. Resend 사용 시에는 동일 알림 ID의 중복 방지 키로 재시도한다.
+
+SQL Editor에서 발송 상태를 점검할 수 있다. `sent`는 Gmail 또는 발송 API가 접수했다는 뜻이며, 실제 수신함 도착을 보장하지 않는다. Gmail 보낸편지함과 반송 메일을 함께 확인한다.
 
 ```sql
 select state, count(*) from team_private.notification_outbox group by state;
@@ -179,14 +183,15 @@ select event, attempts, last_error, created_at
 from team_private.notification_outbox where state='failed' order by created_at desc;
 ```
 
-중단하려면 `update team_private.settings set email_notifications_enabled=false;`를 실행한다. 이미 발송 API가 접수한 메일은 취소되지 않는다. 23시간을 넘긴 실패 항목을 새 ID로 복제하거나 자동 재발송하지 말고, 먼저 발송 기록을 확인한다.
+중단하려면 `update team_private.settings set email_notifications_enabled=false;`를 실행한다. 이미 메일 서버가 접수한 메일은 취소되지 않는다. 23시간을 넘긴 실패 항목을 새 ID로 복제하거나 자동 재발송하지 말고, 먼저 발송 기록을 확인한다.
 
 ### 검증
 
 ```sh
 node scripts/team-building/notifications.test.mjs
+node scripts/team-building/gmail-delivery.test.mjs
 node scripts/team-building/offer-window-browser.test.mjs
-deno check supabase/functions/team-notifications/index.ts
+deno check --node-modules-dir=none supabase/functions/team-notifications/index.ts
 deno test --node-modules-dir=none supabase/functions/team-notifications/worker.test.ts
 ```
 
