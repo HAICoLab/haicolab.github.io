@@ -23,6 +23,8 @@ const events: Record<string, [string, string]> = {
   application_declined: ['지원 결과 안내', '지원 결과를 안내했습니다. 사이트에서 확인해 주세요.'],
   application_accepted: ['팀 합류 확정', '합류 제안을 수락하여 팀원이 되었습니다.'],
   project_comment: ['프로젝트에 새 질문·댓글', '프로젝트에 질문 또는 댓글을 남겼습니다.'],
+  application_review_reminder: ['지원 검토 알림 · 2시간 경과', '합류 지원의 검토를 기다리고 있습니다. 지원 후 2시간이 지났습니다. 내 활동에서 합류를 제안하거나 지원을 거절해 주세요.'],
+  application_offer_reminder: ['합류 제안 응답 알림 · 2시간 경과', '보낸 합류 제안이 응답을 기다리고 있습니다. 제안 후 2시간이 지났습니다. 내 활동에서 제안을 수락하거나 지원을 취소해 주세요.'],
 };
 const escapeHTML = (value: string) => value.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
@@ -93,6 +95,7 @@ export function createHandler(deps: Dependencies) {
       return result.json();
     }
     try {
+      await rpc('tb_queue_due_application_reminders', {});
       const jobs: Job[] = await rpc('tb_claim_notifications', { batch_size: 5 });
       let sent = 0, deferred = 0;
       for (const [index, job] of jobs.entries()) {

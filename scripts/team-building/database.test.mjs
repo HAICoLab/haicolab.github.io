@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
-export async function fixture(course=process.env.TEAM_COURSE||'sts2026',{notifications=false}={}){
+export async function fixture(course=process.env.TEAM_COURSE||'sts2026',{notifications=false,singleApplication=false}={}){
  if(!['sts2026','eng3510'].includes(course))throw Error('Unsupported test course');
  const db=new PGlite();
  await db.exec(`create role anon; create role authenticated; create role service_role; create schema auth; create schema storage;
@@ -20,6 +20,7 @@ export async function fixture(course=process.env.TEAM_COURSE||'sts2026',{notific
  // Historical migration suites deliberately start from the pre-notification schema.
  let setup=await readFile(new URL(`../../courses/${course}/2026-fall/team-building/setup.sql`,import.meta.url),'utf8');
  if(!notifications)setup=setup.replace(/-- BEGIN 20261013 notifications and offer window[\s\S]*?-- END 20261013 notifications and offer window\n/,'').replace(/-- BEGIN 20261013 Gmail delivery[\s\S]*?-- END 20261013 Gmail delivery\n/,'');
+ if(!singleApplication)setup=setup.replace(/-- BEGIN 20261013 single application reminders[\s\S]*?-- END 20261013 single application reminders\n/,'');
  const results=await db.exec(setup);
  const code=results.at(-1).rows[0].professor_invite_code;
  async function signup(sn,invite){const id=randomUUID();await db.query('insert into auth.users(id,email,raw_user_meta_data) values($1,$2,$3)',[id,`${sn}@example.edu`,JSON.stringify({student_number:sn,invite_code:invite,role:'admin'})]);return id;}

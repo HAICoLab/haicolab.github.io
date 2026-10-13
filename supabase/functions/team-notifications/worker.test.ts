@@ -9,6 +9,7 @@ function setup(provider: (init: RequestInit)=>Response|Promise<Response>, overri
  const calls: {url:string,body:Record<string,unknown>,headers:Headers}[]=[];
  const fetchMock: typeof fetch=async(input,init={})=>{
   const url=String(input),body=JSON.parse(String(init.body));calls.push({url,body,headers:new Headers(init.headers)});
+  if(url.endsWith('/tb_queue_due_application_reminders'))return Response.json(0);
   if(url.endsWith('/tb_claim_notifications'))return Response.json([job]);
   if(url.endsWith('/tb_begin_notification_delivery'))return Response.json(true);
   if(url==='https://api.resend.com/emails')return provider(init);
@@ -100,9 +101,16 @@ Deno.test('Gmail self-test is authenticated, fixed to its own account, and reads
 });
 Deno.test('a lost or stale SMTP dispatch lease never calls the provider',async()=>{
  const handler=createHandler({env:name=>({...config,...gmailConfig})[name],fetch:async(input)=>{
+  if(String(input).endsWith('/tb_queue_due_application_reminders'))return Response.json(0);
   if(String(input).endsWith('/tb_claim_notifications'))return Response.json([job]);
   if(String(input).endsWith('/tb_begin_notification_delivery'))return Response.json(false);
   throw Error('Unexpected call');
  },gmailSend:async()=>{throw Error('Must not send');}});
  assert.deepEqual(await (await handler(request())).json(),{processed:1,sent:0,deferred:1});
+});
+Deno.test('reminders direct the correct party to their private activity without exposing application text',()=>{
+ const leader=emailFor({...job,event:'application_review_reminder'},config.TEAM_MAIL_FROM);
+ const applicant=emailFor({...job,event:'application_offer_reminder'},config.TEAM_MAIL_FROM);
+ assert(leader.subject.includes('2시간'));assert(leader.text.includes('합류를 제안하거나 지원을 거절'));
+ assert(applicant.text.includes('제안을 수락하거나 지원을 취소'));assert(applicant.text.includes('#activity'));
 });

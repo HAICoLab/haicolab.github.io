@@ -1,4 +1,4 @@
--- Run only AFTER deploying team-notifications and configuring Resend + Vault.
+-- Run only AFTER deploying team-notifications and configuring mail provider + Vault.
 -- Target: ybotwermtuxtohbwyznm. This does not send historical notifications.
 begin;
 create extension if not exists pg_cron;
