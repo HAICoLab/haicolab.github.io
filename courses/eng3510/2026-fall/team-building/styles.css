@@ -10,3 +10,18 @@
 
 /* Timed matching: disabled controls stay visibly inactive during replies. */
 .btn:disabled{opacity:.48;cursor:not-allowed;transform:none}
+
+/* Instructor-only team membership overview. */
+.team-overview-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.team-overview-card{min-width:0;border:1px solid var(--line);border-radius:12px;padding:20px}
+.team-overview-heading{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.team-overview-card h3{margin:16px 0;font-size:16px;line-height:1.6;overflow-wrap:anywhere}
+.team-overview-card h3 a{text-decoration:underline;text-underline-offset:4px}
+.team-person-list{list-style:none;padding:0;margin:0;font-size:13px}
+.team-person-list li{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 12px;padding:9px 0;overflow-wrap:anywhere}
+.team-person-list li+li{border-top:1px solid var(--line)}
+.team-role{color:var(--green);font-size:11px;margin-left:auto}
+.team-pending{margin-top:16px;padding:12px;background:#fff6e8;border-radius:8px;font-size:12px}
+.team-unassigned{border-top:1px solid var(--line);margin-top:24px;padding-top:24px}
+.admin-teams .section-top{flex-wrap:wrap}
+@media(max-width:900px){.team-overview-grid{grid-template-columns:1fr}}
